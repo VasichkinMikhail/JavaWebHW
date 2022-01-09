@@ -36,16 +36,22 @@
     <div class="row py-2">
         <div class="col-12">
             <form th:action="@{/product}" method="post" th:object="${product}">
-                <input type="hidden" id="id" name="id" th:field="*{id}">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input th:field="*{name}" type="text" class="form-control" id="name" name="username" placeholder="Enter username">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+                    <input type="hidden" id="id" name="id" th:field="*{id}">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input th:field="*{name}" type="text" class="form-control" id="name"  placeholder="Enter product name">
+                        <label>Price</label>
+                        <input th:field="*{price}" type="number" class="form-control" id="price"  placeholder="Enter product price">
+                        <label>Description</label>
+                        <input th:field="*{description}" type="text" class="form-control" id="description"  placeholder="Enter product description">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                </form>
         </div>
     </div>
 </div>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -61,4 +67,3 @@
 
 </body>
 
-</html>

@@ -66,6 +66,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
+                    <url>http://89.108.115.220:8080/manager/text</url>
+                     <username>admin</username>
+                    <password>some_complex_admin_vera8angel</password>
                     <path>/mvc-app</path>
                 </configuration>
             </plugin>
