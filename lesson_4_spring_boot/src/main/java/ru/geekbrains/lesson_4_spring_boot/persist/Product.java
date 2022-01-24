@@ -1,16 +1,27 @@
 package ru.geekbrains.lesson_4_spring_boot.persist;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
-
+@Entity
+@Table(name = "products")
 public class Product {
-
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+
         @NotBlank
+        @Column(nullable = false)
         private String name;
 
+        @NotBlank
+        @Column
         private String description;
 
+        @PositiveOrZero
+        @Column
         private BigDecimal price;
 
         public Product() {
@@ -39,19 +50,19 @@ public class Product {
             this.name = name;
         }
 
-    public String getDescription() {
+        public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+        public void setDescription(String description) {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+        public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+        public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }
