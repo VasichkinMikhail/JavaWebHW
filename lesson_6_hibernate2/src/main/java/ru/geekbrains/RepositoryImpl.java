@@ -1,5 +1,8 @@
-package ru.geekbrains.entity;
+package ru.geekbrains;
 
+
+import ru.geekbrains.Repository;
+import ru.geekbrains.entity.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

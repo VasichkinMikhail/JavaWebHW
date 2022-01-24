@@ -1,18 +1,14 @@
 package ru.geekbrains;
 
 import org.hibernate.cfg.Configuration;
-import ru.geekbrains.entity.ProductRepositoryImpl;
-import ru.geekbrains.entity.User;
 
 import javax.persistence.EntityManagerFactory;
 
-public class Main {
-    private static EntityManagerFactory emFactory = null;
+public class Main05 {
 
 
     public static void main(String[] args) {
-        ProductRepositoryImpl repository = new ProductRepositoryImpl();
-        emFactory = new Configuration()
+        EntityManagerFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .buildSessionFactory();
 //     SAVE
@@ -28,9 +24,7 @@ public class Main {
 
 //        repository.findAll();
     }
-    public static EntityManagerFactory em() {
-        return emFactory;
-    }
+
 
     }
 
