@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface ProductRepository  extends JpaRepository<Product,Long>, JpaSpecificationExecutor<Product> {
 
-    List<Product> findAllByNameLike(String pattern);
 
     @Override
     void deleteById(Long id);

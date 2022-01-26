@@ -2,128 +2,108 @@ package ru.geekbrains.lesson_4_spring_boot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.geekbrains.lesson_4_spring_boot.persist.Product;
-import ru.geekbrains.lesson_4_spring_boot.persist.ProductRepository;
-
-
+import ru.geekbrains.lesson_4_spring_boot.persist.CategoryRepository;
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.geekbrains.lesson_4_spring_boot.persist.ProductSpecification;
+import ru.geekbrains.lesson_4_spring_boot.service.ProductService;
+import ru.geekbrains.lesson_4_spring_boot.service.dto.ProductDto;
 
 
-    @Controller
+@Controller
     @RequestMapping("/product")
     public class ProductController {
 
          private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-        private final ProductRepository productRepository;
+        private final ProductService productService;
+
+        private final CategoryRepository categoryRepository;
 
 
 
         @Autowired
-        public ProductController(ProductRepository productRepository) {
-            this.productRepository = productRepository;
+        public ProductController(ProductService productService, CategoryRepository categoryRepository) {
+            this.productService = productService;
+            this.categoryRepository = categoryRepository;
         }
 
         @GetMapping
         public String listPage(Model model,
-                               @RequestParam("nameFilter") Optional<String> nameFilter) {
+                               @RequestParam("nameFilter") Optional<String> nameFilter,
+                               @RequestParam("page") Optional<Integer> page,
+                               @RequestParam("size") Optional<Integer> size,
+                               @RequestParam("sort") Optional<String> sort) {
             logger.info("Product filter with name pattern {}", nameFilter.orElse(null));
 
-//            List<Product> products;
-//
-//            if(nameFilter.isPresent() && !nameFilter.get().isBlank()){
-//                products = productRepository.findAllByNameLike("%" + nameFilter.get() + "%");
-//            }else {
-//                products = productRepository.findAll();
-//            }
-
-
-            Specification<Product> spec = Specification.where(null);
-            if (nameFilter.isPresent() && !nameFilter.get().isBlank()) {
-               spec = spec.and(ProductSpecification.nameLike(nameFilter.get()));
-            }else {
-                productRepository.findAll();
-            }
-
-            model.addAttribute("products",productRepository.findAll(spec));
+            model.addAttribute("products", productService.findAll(
+                    nameFilter,
+                    page.orElse(1) - 1,
+                    size.orElse(5),
+                    sort.orElse("id")));
             return "product";
         }
-        @GetMapping("/min")
-        public String minPrice(Model model,
-                               @RequestParam("minPrice") BigDecimal minPrice) {
+//        @GetMapping("/min")
+//        public String minPrice(Model model,
+//                               @RequestParam("minPrice") BigDecimal minPrice) {
 //
-//            List<Product> products;
-//            if(minPrice!=null) {
-//                products = productRepository.findByFilter(null,minPrice,null);
-//            }else {
-//                products = productRepository.findAll();
 //
-//            }
-//            model.addAttribute("products",products);
-
-            Specification<Product> spec = Specification.where(null);
-            if (minPrice != null) {
-                spec = spec.and(ProductSpecification.minPriceFilter(minPrice));
-            }else {
-                productRepository.findAll();
-            }
-
-            model.addAttribute("products",productRepository.findAll(spec));
-            return "product";
-        }
-        @GetMapping("/max")
-        public String maxPrice(Model model,
-                               @RequestParam("maxPrice") BigDecimal maxPrice) {
-//            List<Product> products;
-//            if(maxPrice != null){
-//                products = productRepository.findByFilter(null,null,maxPrice);
-//            }else {
-//                products = productRepository.findAll();
+//            Specification<ProductDto> spec = Specification.where(null);
+//            if (minPrice != null) {
+//                spec = spec.and(ProductSpecification.minPriceFilter(minPrice));
 //            }
 //
-//            model.addAttribute("products",products);
-
-            Specification<Product> spec = Specification.where(null);
-            if (maxPrice!= null) {
-                spec = spec.and(ProductSpecification.minPriceFilter(maxPrice));
-            }else {
-                productRepository.findAll();
-            }
-
-            model.addAttribute("products",productRepository.findAll(spec));
-            return "product";
-        }
+//           // model.addAttribute("products", productService.findAll(spec));
+//            return "product";
+//        }
+//        @GetMapping("/max")
+//        public String maxPrice(Model model,
+//                               @RequestParam("maxPrice") BigDecimal maxPrice) {
+//
+//            Specification<ProductDto> spec = Specification.where(null);
+//            if (maxPrice != null) {
+//                spec = spec.and(ProductSpecification.minPriceFilter(maxPrice));
+//            } else {
+//
+//                model.addAttribute("products", categoryRepository.findAll(spec)).;
+//                return "product";
+//            }
+//        }
 
         @GetMapping("/new")
         public String create(Model model) {
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new ProductDto());
+        model.addAttribute("categories",categoryRepository.findAll());
         return "product_form";
     }
-        @GetMapping("/delete{id}")
+        @DeleteMapping("/{id}")
         public String deleteById(@PathVariable("id") Long id) {
-            productRepository.deleteById(id);
+            productService.deleteById(id);
             return"redirect:/product";
 
         }
+        @GetMapping("/{id}")
+        public String edit(@PathVariable("id") Long id, Model model) {
+            model.addAttribute("product", productService.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Product not found")));
+            model.addAttribute("categories",categoryRepository.findAll());
+            return "product_form";
+        }
 
         @PostMapping
-        public String save(@Valid Product product, BindingResult result) {
+        public String save(@Valid ProductDto productDto, BindingResult result) {
             if(result.hasErrors()){
                 return "product_form";
             }
-            productRepository.save(product);
+            productService.save(productDto);
             return "redirect:/product";
         }
 
