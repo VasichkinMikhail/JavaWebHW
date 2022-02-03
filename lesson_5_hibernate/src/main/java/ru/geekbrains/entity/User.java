@@ -1,6 +1,9 @@
 package ru.geekbrains.entity;
 
+
 import javax.persistence.*;
+import java.util.List;
+
 
 @Entity
 @Table(name = "users")
@@ -12,6 +15,14 @@ public class User {
     private String username;
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},
+            orphanRemoval = true)
+
+    private List<Contact> contacts;
+
 
     public User() {
     }
@@ -46,12 +57,21 @@ public class User {
         this.password = password;
     }
 
+    public List<Contact> getContact() {
+        return contacts;
+    }
+
+    public void setContact(List<Contact> contact) {
+        this.contacts = contact;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", contacts=" + contacts +
                 '}';
     }
 }

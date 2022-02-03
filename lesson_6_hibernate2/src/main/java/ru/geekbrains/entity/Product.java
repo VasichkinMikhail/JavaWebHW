@@ -4,6 +4,7 @@ package ru.geekbrains.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -18,10 +19,10 @@ public class Product {
 
     @Column(nullable = false,length = 512)
     private BigDecimal price;
+    @OneToMany(mappedBy = "product",
+            orphanRemoval = true)
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private List<Lineitem> lineitems;
 
 
     public Product() {
@@ -59,12 +60,13 @@ public class Product {
         this.price = price;
     }
 
-    public User getUser() {
-        return user;
+
+    public List<Lineitem> getLineitems() {
+        return lineitems;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setLineitems(List<Lineitem> lineitems) {
+        this.lineitems = lineitems;
     }
 
     @Override
@@ -73,7 +75,7 @@ public class Product {
                 "id=" + id +
                 ", productName='" + productName + '\'' +
                 ", price=" + price +
-                ", userId=" + user.getId() +
                 '}';
+
     }
 }
