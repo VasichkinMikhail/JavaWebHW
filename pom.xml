@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>lesson_3_spring_mvc</module>
+        <module>lesson_4_spring_boot</module>
     </modules>
 
     <properties>
