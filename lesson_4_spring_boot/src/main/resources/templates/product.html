@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -38,27 +38,59 @@
             <a class="btn btn-primary" th:href="@{/product/new}">Add Product</a>
         </div>
 
+        <form class="form-inline mt-3" method="get" >
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="name-filter" class="sr-only">Name filter:</label>
+                <input th:value="${param.nameFilter}" type="text" class="form-control"
+                       name="nameFilter" id="name-filter" placeholder="Name filter">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Apply</button>
+        </form>
+
+
+        <form class="form-inline mt-3" method="get" th:action="@{/product/min}">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="minPrice" class="sr-only">Min price:</label>
+                <input th:value="${param.minPrice}" type="text" class="form-control"
+                       name="minPrice" id="minPrice" placeholder="Min Price">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Apply</button>
+        </form>
+
+        <form class="form-inline mt-3" method="get" th:action="@{/product/max}">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="maxPrice" class="sr-only">Max price:</label>
+                <input th:value="${param.maxPrice}" type="text" class="form-control"
+                       name="maxPrice" id="maxPrice" placeholder="Max price">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Apply</button>
+        </form>
+
+
+
+
         <div class="col-12">
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Price</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!--/*@thymesVar id="products" type=""*/-->
                 <tr th:each="product : ${products}">
                     <th scope="row" th:text="${product.id}">1</th>
-                    <td th:text="${product.name}">Mike</td>
-                    <td th:text="${product.price}">Mike</td>
-                    <td th:text="${product.description}">Mike</td>
+                    <td th:text="${product.name}">Alex</td>
+                    <td th:text="${product.description}">Alex</td>
+                    <td th:text="${product.price}">Alex</td>
                     <td>
                         <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
+                        <a class="btn btn-danger" th:href="@{/product/delete{id}(id = ${product.id})}"><i class="far fa-trash-alt"></i></a>
+
+
                     </td>
                 </tr>
                 </tbody>
