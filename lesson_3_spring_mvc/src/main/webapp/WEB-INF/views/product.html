@@ -44,6 +44,8 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -51,7 +53,9 @@
                 <!--/*@thymesVar id="products" type=""*/-->
                 <tr th:each="product : ${products}">
                     <th scope="row" th:text="${product.id}">1</th>
-                    <td th:text="${product.name}">Alex</td>
+                    <td th:text="${product.name}">Mike</td>
+                    <td th:text="${product.price}">Mike</td>
+                    <td th:text="${product.description}">Mike</td>
                     <td>
                         <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>

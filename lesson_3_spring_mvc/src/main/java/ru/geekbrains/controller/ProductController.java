@@ -8,11 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
 
+
+
 @Controller
     @RequestMapping("/product")
     public class ProductController {
 
         private final ProductRepository productRepository;
+
+
 
         @Autowired
         public ProductController(ProductRepository productRepository) {
@@ -33,10 +37,11 @@ import ru.geekbrains.persist.ProductRepository;
         }
 
         @GetMapping("/new")
-        public String create(Model model) {
-            // TODO model.addAttribute("product", ?????);
-            return "product_form";
-        }
+    public String create(Model model) {
+        model.addAttribute("product", new Product());
+        return "product_form";
+    }
+
 
         @PostMapping
         public String save(Product product) {
@@ -50,6 +55,7 @@ import ru.geekbrains.persist.ProductRepository;
             model.addAttribute("message", ex.getMessage());
             return "not_found";
         }
+
     }
 
 
