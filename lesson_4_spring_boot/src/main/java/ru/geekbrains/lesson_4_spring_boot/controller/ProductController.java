@@ -1,7 +1,6 @@
 package ru.geekbrains.lesson_4_spring_boot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,11 +8,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.lesson_4_spring_boot.persist.CategoryRepository;
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.geekbrains.lesson_4_spring_boot.persist.ProductSpecification;
 import ru.geekbrains.lesson_4_spring_boot.service.ProductService;
 import ru.geekbrains.lesson_4_spring_boot.service.dto.ProductDto;
 
@@ -48,7 +45,7 @@ import ru.geekbrains.lesson_4_spring_boot.service.dto.ProductDto;
                     nameFilter,
                     page.orElse(1) - 1,
                     size.orElse(5),
-                    sort.orElse("id")));
+                    sort.filter(s -> !s.isBlank()).orElse("id")));
             return "product";
         }
 //        @GetMapping("/min")
