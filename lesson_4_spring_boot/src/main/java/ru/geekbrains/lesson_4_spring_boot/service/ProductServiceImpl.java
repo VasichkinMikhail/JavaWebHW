@@ -15,15 +15,13 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
     }
-
-    private final CategoryRepository categoryRepository;
-
-
 
     @Override
     public Page<ProductDto> findAll(Optional<String> nameFilter, Integer page, Integer size, String sort) {

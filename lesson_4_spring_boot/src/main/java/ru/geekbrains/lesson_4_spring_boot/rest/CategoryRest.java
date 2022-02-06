@@ -12,12 +12,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/category")
-public class CategoryResource {
+public class CategoryRest {
 
     private CategoryService categoryService;
 
     @Autowired
-    public CategoryResource(CategoryService categoryService) {
+    public CategoryRest(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
