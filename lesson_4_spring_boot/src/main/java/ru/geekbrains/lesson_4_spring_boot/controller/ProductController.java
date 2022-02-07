@@ -15,7 +15,7 @@ import ru.geekbrains.lesson_4_spring_boot.service.ProductService;
 import ru.geekbrains.lesson_4_spring_boot.service.dto.ProductDto;
 
 
-@Controller
+    @Controller
     @RequestMapping("/product")
     public class ProductController {
 

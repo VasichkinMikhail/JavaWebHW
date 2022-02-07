@@ -3,6 +3,7 @@ package ru.geekbrains.lesson_4_spring_boot.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.lesson_4_spring_boot.controller.NotFoundException;
 import ru.geekbrains.lesson_4_spring_boot.service.ProductService;
@@ -36,6 +37,7 @@ public class ProductRest {
         return productService.findById(id).orElseThrow(()-> new NotFoundException("Product with id " + id + "not found"));
 
     }
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto create(@RequestBody ProductDto productDto){

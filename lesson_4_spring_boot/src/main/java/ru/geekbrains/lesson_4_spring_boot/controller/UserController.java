@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,7 @@ public class UserController {
         model.addAttribute("user", new User());
         return "user_form";
     }
+    @Secured({"ROLE_SUPER_ADMIN"})
     @DeleteMapping("/{id}")
     public String deleteById(@PathVariable("id") Long id) {
         userRepository.deleteById(id);
